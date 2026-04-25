@@ -1,3 +1,6 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/huu01011985gl-art/Fastattack/refs/heads/main/FastAttackBananaOld.txt"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/huu01011985gl-art/Fastattack/refs/heads/main/Code_Fast_Attack.lua.txt"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/huu01011985gl-art/Fastattack/refs/heads/main/Fast_Attack_By_Night_Slayer_Hub.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/huu01011985gl-art/Fastattack/refs/heads/main/fast%20attack%20buddha.txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/huu01011985gl-art/Fastattack/refs/heads/main/fast%20attack%20new%20by%20trieu%20(1).txt"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/huu01011985gl-art/Fastattack/refs/heads/main/fast%20attcak%20vip.txt"))()
