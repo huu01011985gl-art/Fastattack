@@ -1,7 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Fast Attack By Night Slayer Hub",
+    Name = "Fast Attack HDZ hub",
     LoadingTitle = "Loading...",
     LoadingSubtitle = "Clean Mode",
     ConfigurationSaving = {Enabled = false}
