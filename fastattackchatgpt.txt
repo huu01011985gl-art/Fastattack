@@ -1,9 +1,9 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "DacCau Farm",
+   Name = "HDZ Farm",
    LoadingTitle = "Blox Fruit",
-   LoadingSubtitle = "by Duc luong",
+   LoadingSubtitle = "by Hoang",
    Theme = "Default",
    ToggleUIKeybind = Enum.KeyCode.K, 
    DisableRayfieldPrompts = true,
