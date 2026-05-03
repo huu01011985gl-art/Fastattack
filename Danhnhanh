@@ -1,0 +1,54 @@
+-- ========================================
+-- SCRIPT ĐÁNH SIÊU NHANH - CHỈ LÀM MỘT VIỆC
+-- ĐÁNH THẬT NHANH, ĐÁNH LIÊN TỤC
+-- ========================================
+
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+
+-- ⚡ TỐC ĐỘ TỐI ĐA – CHỈNH CÀNG NHỎ CÀNG NHANH ⚡
+local attackDelay = 0.03   -- 0.03s = 33 đòn/giây (khuyến nghị)
+-- Thử giảm xuống 0.02, 0.01 nếu mạng tốt
+
+local enabled = false
+local attackRemote = nil
+
+-- Tìm remote tấn công
+local function findRemote()
+    local rs = game:GetService("ReplicatedStorage")
+    for _, v in pairs(rs:GetDescendants()) do
+        if v:IsA("RemoteEvent") and (v.Name:lower():find("attack") or v.Name:lower():find("hit")) then
+            return v
+        end
+    end
+    return nil
+end
+
+attackRemote = findRemote()
+
+local function attack()
+    if attackRemote then attackRemote:FireServer() end
+end
+
+local loopConnection = nil
+
+mouse.KeyDown:Connect(function(key)
+    if key == "s" then
+        enabled = not enabled
+        if enabled then
+            print("⚡ BẬT – Tốc độ:", math.floor(1/attackDelay), "đòn/giây | Delay:", attackDelay, "s")
+            loopConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                if enabled then
+                    attack()
+                    task.wait(attackDelay)
+                end
+            end)
+        else
+            if loopConnection then loopConnection:Disconnect() end
+            print("🛑 TẮT")
+        end
+    end
+end)
+
+print("✅ Nhấn S để bật/tắt – Delay:", attackDelay, "s")
+if not attackRemote then print("⚠️ Chưa tìm thấy remote – script có thể không chạy") end
