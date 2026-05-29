@@ -1366,3 +1366,90 @@ if t then Funcs:Attack() end
 end)
 end
 end)
+-- Hàm Fast Attack chuyên dụng
+function FastAttackFruit()
+    if getgenv().IsUsingFastAttack then return end
+
+    local char = player.Character
+    local tool = char and char:FindFirstChildOfClass("Tool")
+
+    -- Kiểm tra xem có đang cầm Fruit và Fruit đó có M1 không
+    if tool and tool.ToolTip == "Blox Fruit" and HasM1Fruit() then
+        getgenv().IsUsingFastAttack = true
+
+        -- Vòng lặp tấn công siêu tốc
+        for i = 1, getgenv().AutoBounty.Combat.FastAttackSpeed or 12 do
+            task.spawn(function()
+                pcall(function()
+                    -- Gửi remote tấn công chuẩn Blox Fruit
+                    -- 1. Kích hoạt Tool
+                    tool:Activate()
+
+                    -- 2. Gửi tín hiệu đánh (Dành cho các trái có M1 như Kitsune, T-Rex)
+                    local remote = tool:FindFirstChild("LeftClickRemote") or tool:FindFirstChild("Remote")
+                    if remote then
+                        remote:FireServer(Vector3.new(0,0,0), 1)
+                    end
+
+                    -- 3. Tấn công diện rộng (Blade Combat)
+                    Net:InvokeServer("Attack", {
+                        [1] = getgenv().targ and getgenv().targ.Character and getgenv().targ.Character:FindFirstChild("HumanoidRootPart")
+                    })
+                end)
+            end)
+
+            -- Tốc độ nghỉ siêu nhỏ để tránh bị Kick
+            task.wait(0.01) 
+        end
+
+        getgenv().IsUsingFastAttack = false
+    end
+end
+v4:AddSlider({
+    Name = "Gun range",
+    Min = 50,
+    Max = 30000,
+    Default = 500,
+    Increment = 10,
+    Callback = function(val)
+        getgenv().GunAuraSettings.GunRange = val
+    end
+})
+
+v4:AddToggle({
+    Name = "Auto gun aura",
+    Default = false,
+    Callback = function(val)
+        getgenv().GunAuraSettings.GunEnabled = val
+    end
+})
+-- GUN AURA SYSTEM
+task.spawn(function()
+    while task.wait(0.05) do
+        if getgenv().GunAura.Enabled then
+            pcall(function()
+
+                local player = game.Players.LocalPlayer
+                local char = player.Character
+                if not char then return end
+
+                local hrp = char:FindFirstChild("HumanoidRootPart")
+                if not hrp then return end
+
+                local vu = game:GetService("VirtualUser")
+
+                -- NPC
+                for _,v in pairs(workspace:GetDescendants()) do
+                    if v:FindFirstChild("Humanoid") 
+                    and v:FindFirstChild("HumanoidRootPart") 
+                    and v.Humanoid.Health > 0 
+                    and not game.Players:GetPlayerFromCharacter(v) then
+
+                        local dist = (v.HumanoidRootPart.Position - hrp.Position).Magnitude
+
+                        if dist <= getgenv().GunAura.Range then
+                            vu:Button1Down(Vector2.new(0,0))
+                            vu:Button1Up(Vector2.new(0,0))
+                        end
+                    end
+                end
